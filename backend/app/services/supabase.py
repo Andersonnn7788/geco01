@@ -41,8 +41,14 @@ class SupabaseService:
             pass
 
     async def _execute(self, query):
-        """Run blocking Supabase calls in a worker thread."""
-        return await asyncio.to_thread(query.execute)
+        """Run blocking Supabase calls in a worker thread with a timeout to avoid agent hangs."""
+        try:
+            return await asyncio.wait_for(
+                asyncio.to_thread(query.execute),
+                timeout=settings.DB_TIMEOUT_SECONDS
+            )
+        except asyncio.TimeoutError as exc:
+            raise TimeoutError("Supabase request timed out") from exc
 
     # ==================== SPACES ====================
 

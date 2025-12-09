@@ -1,9 +1,11 @@
 """Booking-related API endpoints."""
+import asyncio
 from datetime import datetime
 from fastapi import APIRouter, HTTPException
 
 from app.config import get_settings
 from app.services.supabase import get_supabase_service
+from app.services.notifications import send_booking_confirmation_email
 
 settings = get_settings()
 router = APIRouter(tags=["bookings"])
@@ -106,6 +108,21 @@ async def reconcile_booking_payment(booking_id: str):
             paid_at=datetime.now(),
         )
         booking = await supabase.get_booking_by_id(booking_id)
+
+        # Fire-and-forget email confirmation in case webhook was missed.
+        # Try to pass an email extracted from the PaymentIntent if we have one.
+        fallback_email = (
+            getattr(confirmed_intent, "receipt_email", None)
+            or getattr(getattr(confirmed_intent, "charges", None), "data", [{}])[0]
+            .get("billing_details", {})
+            .get("email")
+        )
+        asyncio.create_task(
+            send_booking_confirmation_email(
+                booking_id=booking_id,
+                fallback_email=fallback_email,
+            )
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to update booking/payment: {e}")
 

@@ -45,8 +45,19 @@ class Settings(BaseSettings):
     SMTP_FROM: str = ""
     SMTP_USE_TLS: bool = True
 
+    # Service timeouts
+    DB_TIMEOUT_SECONDS: int = 10
+
     class Config:
-        env_file = ".env"
+        # Prefer ENV_FILE override, otherwise pick backend/.env when running from repo root,
+        # and fall back to .env in the current working directory.
+        _env_file_override = os.getenv("ENV_FILE")
+        if _env_file_override:
+            env_file = _env_file_override
+        elif os.path.exists("backend/.env"):
+            env_file = "backend/.env"
+        else:
+            env_file = ".env"
         env_file_encoding = "utf-8"
         case_sensitive = True
         extra = "ignore"

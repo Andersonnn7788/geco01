@@ -19,6 +19,9 @@ supabase>=2.0.0
 # PDF generation
 fpdf2>=2.7.9
 
+# QR codes
+segno>=1.6.0
+
 # Email
 resend>=0.9.0
 

@@ -111,6 +111,16 @@ async def create_booking(
     except ValueError as e:
         return json.dumps({"error": str(e)})
 
+    # Validate that booking is not in the past
+    now = datetime.now()
+    if start_datetime < now:
+        return json.dumps({
+            "error": "Cannot book in the past",
+            "requested_time": start_datetime.strftime("%B %d, %Y at %I:%M %p"),
+            "current_time": now.strftime("%B %d, %Y at %I:%M %p"),
+            "suggestion": "Please choose a date and time in the future. Use 'today' or 'tomorrow' for quick booking."
+        })
+
     # Validate times
     if end_datetime <= start_datetime:
         return json.dumps({

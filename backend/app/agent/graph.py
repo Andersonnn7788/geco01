@@ -77,8 +77,15 @@ async def agent_node(state: AgentState) -> dict:
     # Build the message list with system prompt
     system_message = SystemMessage(content=SYSTEM_PROMPT)
 
+    # Add current date/time context (critical for date-based bookings)
+    from datetime import datetime
+    now = datetime.now()
+    time_context = f"\n\n**Current Date & Time**: {now.strftime('%B %d, %Y at %I:%M %p')}"
+    time_context += f"\n**Current Day**: {now.strftime('%A')}"
+    time_context += "\n**Important**: When suggesting dates, always start from TODAY or later. Never suggest past dates."
+
     # Add user context to system message if available
-    user_context = ""
+    user_context = time_context
     if state.get("user_id"):
         user_context += f"\n\nCurrent user ID: {state['user_id']}"
     if state.get("user_name"):
