@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import ChatBot from '@/app/components/ChatBot'
+import BookingAgent from '@/app/components/BookingAgent'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -186,6 +187,9 @@ export default async function DashboardPage() {
 
       {/* AI Chatbot */}
       <ChatBot />
+
+      {/* AI Booking Agent */}
+      <BookingAgent />
     </div>
   )
 }

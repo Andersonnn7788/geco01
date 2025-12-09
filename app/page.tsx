@@ -1,10 +1,12 @@
 import Image from "next/image";
 import ChatBot from "./components/ChatBot";
 import NavBar from "./components/NavBar";
+import PaymentSuccessBanner from "./components/PaymentSuccessBanner";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50">
+      <PaymentSuccessBanner />
       {/* Navigation */}
       <NavBar />
 
