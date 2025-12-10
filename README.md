@@ -6,6 +6,41 @@ A comprehensive, AI-powered coworking space management platform for Infinity8, M
 
 Infinity8 is a full-stack platform that combines beautiful user-facing features with powerful admin tools, all enhanced by AI capabilities including natural language booking, intelligent chatbots, and RAG-powered knowledge management.
 
+## 📁 Project Structure
+
+This is a monorepo containing both frontend and backend applications:
+
+```
+geco01/
+├── frontend/          # Next.js frontend application
+│   ├── app/          # Next.js app directory
+│   ├── lib/          # Shared utilities
+│   ├── public/       # Static assets
+│   └── ...
+├── backend/          # FastAPI backend application
+│   ├── app/          # FastAPI application
+│   └── ...
+└── README.md         # This file
+```
+
+### Getting Started
+
+#### Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+#### Backend Setup
+```bash
+cd backend
+pip install -r requirements.txt
+python -m uvicorn app.main:app --reload
+```
+
+See individual README files in `frontend/` and `backend/` directories for detailed setup instructions.
+
 ## ✨ Key Features
 
 ### 🌐 User-Facing Features
