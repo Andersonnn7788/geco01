@@ -33,16 +33,27 @@ interface Props {
 export default function SpaceStatusGrid({ spaces, bookings }: Props) {
   const [filterType, setFilterType] = useState<string>('all')
 
+  // Format time consistently to avoid hydration errors
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString)
+    const hours = date.getHours()
+    const minutes = date.getMinutes()
+    const ampm = hours >= 12 ? 'PM' : 'AM'
+    const displayHours = hours % 12 || 12
+    const displayMinutes = minutes.toString().padStart(2, '0')
+    return `${displayHours.toString().padStart(2, '0')}:${displayMinutes} ${ampm}`
+  }
+
   const getSpaceStatus = (spaceId: string) => {
     const now = new Date()
-    
+
     // Check if currently occupied
     const currentBooking = bookings.find(b => {
       const start = new Date(b.start_time)
       const end = new Date(b.end_time)
-      return b.space_id === spaceId && 
-             start <= now && 
-             end >= now && 
+      return b.space_id === spaceId &&
+             start <= now &&
+             end >= now &&
              b.status === 'confirmed'
     })
 
@@ -50,19 +61,19 @@ export default function SpaceStatusGrid({ spaces, bookings }: Props) {
       return {
         status: 'occupied',
         label: 'Occupied',
-        color: 'bg-white border-green-700 text-gray-800',
+        color: 'bg-red-50 border-green-700 text-gray-800',
         dotColor: 'bg-red-500',
         booking: currentBooking
       }
     }
 
-    // Check for upcoming bookings (next 2 hours)
-    const twoHoursFromNow = new Date(now.getTime() + 2 * 60 * 60 * 1000)
+    // Check for upcoming bookings (next 7 days)
+    const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
     const upcomingBooking = bookings.find(b => {
       const start = new Date(b.start_time)
-      return b.space_id === spaceId && 
-             start > now && 
-             start <= twoHoursFromNow && 
+      return b.space_id === spaceId &&
+             start > now &&
+             start <= sevenDaysFromNow &&
              (b.status === 'confirmed' || b.status === 'pending')
     })
 
@@ -70,7 +81,7 @@ export default function SpaceStatusGrid({ spaces, bookings }: Props) {
       return {
         status: 'upcoming',
         label: 'Upcoming',
-        color: 'bg-white border-green-700 text-gray-800',
+        color: 'bg-yellow-50 border-green-700 text-gray-800',
         dotColor: 'bg-yellow-500',
         booking: upcomingBooking
       }
@@ -79,7 +90,7 @@ export default function SpaceStatusGrid({ spaces, bookings }: Props) {
     return {
       status: 'available',
       label: 'Available',
-      color: 'bg-white border-green-700 text-gray-800',
+      color: 'bg-green-50 border-green-700 text-gray-800',
       dotColor: 'bg-green-500'
     }
   }
@@ -166,7 +177,7 @@ export default function SpaceStatusGrid({ spaces, bookings }: Props) {
           return (
             <div
               key={space.id}
-              className={`border-[4px] rounded-lg p-4 transition hover:shadow-md ${status.color}`}
+              className={`border-[3px] rounded-lg p-4 transition hover:shadow-md ${status.color}`}
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-2">
@@ -208,7 +219,7 @@ export default function SpaceStatusGrid({ spaces, bookings }: Props) {
                     {status.booking.profiles?.full_name || 'Unknown User'}
                   </p>
                   <p className="text-xs text-gray-600">
-                    {new Date(status.booking.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(status.booking.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    {formatTime(status.booking.start_time)} - {formatTime(status.booking.end_time)}
                   </p>
                 </div>
               )}
