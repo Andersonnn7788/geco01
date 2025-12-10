@@ -46,7 +46,7 @@ class Settings(BaseSettings):
     SMTP_USE_TLS: bool = True
 
     # Service timeouts
-    DB_TIMEOUT_SECONDS: int = 10
+    DB_TIMEOUT_SECONDS: int = 15  # Increased from 10 to handle Supabase connection issues
 
     class Config:
         # Prefer ENV_FILE override, otherwise pick backend/.env when running from repo root,

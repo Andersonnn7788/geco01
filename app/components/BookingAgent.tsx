@@ -153,7 +153,7 @@ export default function BookingAgent() {
 
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(new DOMException('Timeout', 'AbortError')), 15000); // 15s hard timeout
+      const timeoutId = setTimeout(() => controller.abort(new DOMException('Timeout', 'AbortError')), 75000); // 75s timeout (backend has 60s)
 
       const response = await fetch(`${BOOKING_API_URL}/api/v1/chat`, {
         method: 'POST',

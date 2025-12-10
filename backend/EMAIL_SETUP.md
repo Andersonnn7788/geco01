@@ -115,3 +115,5 @@ If you encounter issues:
 **Note:** With the free Resend plan, you get 100 emails per day. Upgrade if you need more.
 
 
+
+

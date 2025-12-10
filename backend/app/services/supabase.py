@@ -40,15 +40,22 @@ class SupabaseService:
             # Don't break startup if we cannot decode
             pass
 
-    async def _execute(self, query):
+    async def _execute(self, query, max_retries=2):
         """Run blocking Supabase calls in a worker thread with a timeout to avoid agent hangs."""
-        try:
-            return await asyncio.wait_for(
-                asyncio.to_thread(query.execute),
-                timeout=settings.DB_TIMEOUT_SECONDS
-            )
-        except asyncio.TimeoutError as exc:
-            raise TimeoutError("Supabase request timed out") from exc
+        for attempt in range(max_retries):
+            try:
+                return await asyncio.wait_for(
+                    asyncio.to_thread(query.execute),
+                    timeout=settings.DB_TIMEOUT_SECONDS
+                )
+            except asyncio.TimeoutError as exc:
+                raise TimeoutError("Supabase request timed out") from exc
+            except Exception as exc:
+                # Retry on connection errors
+                if attempt < max_retries - 1 and "RemoteProtocolError" in str(type(exc).__name__):
+                    await asyncio.sleep(0.5)  # Brief delay before retry
+                    continue
+                raise
 
     # ==================== SPACES ====================
 

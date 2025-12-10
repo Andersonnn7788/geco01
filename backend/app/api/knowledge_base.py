@@ -90,8 +90,21 @@ async def upload_document(
 @router.get("/documents", response_model=list[DocumentResponse])
 async def get_documents():
     """Get all knowledge base documents."""
-    kb_service = get_knowledge_base_service()
-    return await kb_service.get_documents()
+    try:
+        kb_service = get_knowledge_base_service()
+        return await kb_service.get_documents()
+    except TimeoutError as e:
+        raise HTTPException(
+            status_code=504,
+            detail="Database request timed out. Please try again."
+        )
+    except Exception as e:
+        # Log the error for debugging
+        print(f"Error fetching documents: {type(e).__name__}: {str(e)}")
+        raise HTTPException(
+            status_code=503,
+            detail="Unable to connect to database. Please check your configuration or try again later."
+        )
 
 
 @router.get("/documents/{document_id}", response_model=DocumentResponse)
@@ -169,9 +182,21 @@ async def get_unanswered_queries(
     limit: int = Query(50, description="Maximum number of results")
 ):
     """Get unanswered queries for admin review."""
-    kb_service = get_knowledge_base_service()
-    queries = await kb_service.get_unanswered_queries(status=status, limit=limit)
-    return queries
+    try:
+        kb_service = get_knowledge_base_service()
+        queries = await kb_service.get_unanswered_queries(status=status, limit=limit)
+        return queries
+    except TimeoutError as e:
+        raise HTTPException(
+            status_code=504,
+            detail="Database request timed out. Please try again."
+        )
+    except Exception as e:
+        print(f"Error fetching unanswered queries: {type(e).__name__}: {str(e)}")
+        raise HTTPException(
+            status_code=503,
+            detail="Unable to connect to database. Please check your configuration or try again later."
+        )
 
 
 @router.post("/unanswered-queries/{query_id}/respond")
@@ -203,24 +228,36 @@ async def dismiss_query(query_id: str):
 @router.get("/stats")
 async def get_knowledge_base_stats():
     """Get knowledge base statistics."""
-    kb_service = get_knowledge_base_service()
+    try:
+        kb_service = get_knowledge_base_service()
 
-    documents = await kb_service.get_documents()
-    unanswered = await kb_service.get_unanswered_queries(status="pending")
+        documents = await kb_service.get_documents()
+        unanswered = await kb_service.get_unanswered_queries(status="pending")
 
-    total_docs = len(documents)
-    ready_docs = len([d for d in documents if d["status"] == "ready"])
-    processing_docs = len([d for d in documents if d["status"] == "processing"])
-    error_docs = len([d for d in documents if d["status"] == "error"])
-    total_chunks = sum(d.get("chunk_count", 0) or 0 for d in documents)
-    total_size = sum(d.get("file_size", 0) or 0 for d in documents)
+        total_docs = len(documents)
+        ready_docs = len([d for d in documents if d["status"] == "ready"])
+        processing_docs = len([d for d in documents if d["status"] == "processing"])
+        error_docs = len([d for d in documents if d["status"] == "error"])
+        total_chunks = sum(d.get("chunk_count", 0) or 0 for d in documents)
+        total_size = sum(d.get("file_size", 0) or 0 for d in documents)
 
-    return {
-        "total_documents": total_docs,
-        "ready_documents": ready_docs,
-        "processing_documents": processing_docs,
-        "error_documents": error_docs,
-        "total_chunks": total_chunks,
-        "total_storage_bytes": total_size,
-        "pending_queries": len(unanswered)
-    }
+        return {
+            "total_documents": total_docs,
+            "ready_documents": ready_docs,
+            "processing_documents": processing_docs,
+            "error_documents": error_docs,
+            "total_chunks": total_chunks,
+            "total_storage_bytes": total_size,
+            "pending_queries": len(unanswered)
+        }
+    except TimeoutError as e:
+        raise HTTPException(
+            status_code=504,
+            detail="Database request timed out. Please try again."
+        )
+    except Exception as e:
+        print(f"Error fetching stats: {type(e).__name__}: {str(e)}")
+        raise HTTPException(
+            status_code=503,
+            detail="Unable to connect to database. Please check your configuration or try again later."
+        )
