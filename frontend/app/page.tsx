@@ -13,18 +13,30 @@ export default function Home() {
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto text-center">
+          {/* Logo */}
+          <div className="flex items-center justify-center mb-8">
+            <div className="relative w-50 h-50">
+              <Image
+                src="/logo.png"
+                alt="Infinity8 Logo"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
+
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-gray-900 mb-6">
             Where Innovation
-            <span className="text-blue-600"> Meets Community</span>
+            <span className="text-[#b48c5c]"> Meets Community</span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             Experience Malaysia's premier coworking space designed for entrepreneurs, startups, and established businesses seeking flexibility and growth.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition">
+            <button className="bg-[#b48c5c] hover:bg-[#9a7450] text-white px-8 py-4 rounded-lg text-lg font-semibold transition">
               Get Started
             </button>
-            <button className="bg-white hover:bg-gray-50 text-gray-900 px-8 py-4 rounded-lg text-lg font-semibold transition border border-gray-300">
+            <button className="bg-white hover:bg-gray-50 text-gray-900 px-8 py-4 rounded-lg text-lg font-semibold transition border border-[#b48c5c]">
               Watch Video
             </button>
           </div>
@@ -53,7 +65,7 @@ export default function Home() {
                 image: "https://images.unsplash.com/photo-1431540015161-0bf868a2d407?w=800&h=600&fit=crop"
               }
             ].map((feature, idx) => (
-              <div key={idx} className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:border-blue-600 transition shadow-sm hover:shadow-lg">
+              <div key={idx} className="bg-white rounded-lg overflow-hidden border border-[#d4c5b0] hover:border-[#b48c5c] transition shadow-sm hover:shadow-lg">
                 <div className="relative h-48 w-full">
                   <Image
                     src={feature.image}
@@ -87,7 +99,7 @@ export default function Home() {
               { label: "Phone Booths" },
               { label: "Event Spaces" }
             ].map((amenity, idx) => (
-              <div key={idx} className="bg-gray-50 rounded-lg p-6 border border-gray-200 text-center hover:border-blue-600 transition">
+              <div key={idx} className="bg-gray-50 rounded-lg p-6 border border-[#d4c5b0] text-center hover:border-[#b48c5c] transition">
                 <p className="text-gray-900 font-medium">{amenity.label}</p>
               </div>
             ))}
@@ -121,9 +133,9 @@ export default function Home() {
                 features: ["Private office space", "24/7 access", "Unlimited meeting rooms", "Priority support", "Custom branding"]
               }
             ].map((plan, idx) => (
-              <div key={idx} className={`rounded-lg p-8 border ${plan.popular ? 'bg-blue-50 border-blue-600 shadow-lg' : 'bg-white border-gray-200'}`}>
+              <div key={idx} className={`rounded-lg p-8 border ${plan.popular ? 'bg-[#f5f0eb] border-[#b48c5c] shadow-lg' : 'bg-white border-gray-200'}`}>
                 {plan.popular && (
-                  <span className="bg-blue-600 text-white px-3 py-1 rounded-md text-sm font-semibold">Most Popular</span>
+                  <span className="bg-[#b48c5c] text-white px-3 py-1 rounded-md text-sm font-semibold">Most Popular</span>
                 )}
                 <h3 className="text-2xl font-bold text-gray-900 mt-4 mb-2">{plan.name}</h3>
                 <div className="mb-6">
@@ -133,12 +145,12 @@ export default function Home() {
                 <ul className="space-y-3 mb-8">
                   {plan.features.map((feature, fidx) => (
                     <li key={fidx} className="text-gray-600 flex items-center">
-                      <span className="mr-2 text-blue-600">✓</span>
+                      <span className="mr-2 text-[#b48c5c]">✓</span>
                       {feature}
                     </li>
                   ))}
                 </ul>
-                <button className={`w-full py-3 rounded-lg font-semibold transition ${plan.popular ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-white hover:bg-gray-50 text-gray-900 border border-gray-300'}`}>
+                <button className={`w-full py-3 rounded-lg font-semibold transition ${plan.popular ? 'bg-[#b48c5c] hover:bg-[#9a7450] text-white' : 'bg-white hover:bg-gray-50 text-gray-900 border border-gray-300'}`}>
                   Choose Plan
                 </button>
               </div>
@@ -158,9 +170,9 @@ export default function Home() {
             <input
               type="email"
               placeholder="Enter your email"
-              className="px-6 py-4 rounded-lg bg-white border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+              className="px-6 py-4 rounded-lg bg-white border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#b48c5c] focus:border-transparent"
             />
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold transition">
+            <button className="bg-[#b48c5c] hover:bg-[#9a7450] text-white px-8 py-4 rounded-lg font-semibold transition">
               Schedule Tour
             </button>
           </div>
@@ -173,8 +185,15 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <div className="text-2xl font-bold text-blue-600">∞8</div>
-                <span className="text-xl font-semibold text-gray-900">Infinity8</span>
+                <div className="relative w-12 h-12">
+                  <Image
+                    src="/logo.png"
+                    alt="Infinity8 Logo"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <span className="text-xl font-bold text-[#b48c5c]">INFINITY8</span>
               </div>
               <p className="text-gray-600">Malaysia's premier coworking space</p>
             </div>
@@ -189,9 +208,9 @@ export default function Home() {
             <div>
               <h4 className="text-gray-900 font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-gray-600">
-                <li><a href="#" className="hover:text-blue-600 transition">About Us</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition">Careers</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition">Blog</a></li>
+                <li><a href="#" className="hover:text-[#b48c5c] transition">About Us</a></li>
+                <li><a href="#" className="hover:text-[#b48c5c] transition">Careers</a></li>
+                <li><a href="#" className="hover:text-[#b48c5c] transition">Blog</a></li>
               </ul>
             </div>
             <div>

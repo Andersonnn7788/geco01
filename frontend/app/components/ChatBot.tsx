@@ -281,7 +281,7 @@ export default function ChatBot() {
       {/* Chat Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 z-50 hover:scale-110"
+        className="fixed bottom-6 right-6 bg-[#b48c5c] text-white p-4 rounded-full shadow-lg hover:bg-[#9a7450] transition-all duration-300 z-50 hover:scale-110"
         aria-label="Toggle chat"
       >
         {isOpen ? (
@@ -299,9 +299,9 @@ export default function ChatBot() {
       {isOpen && (
         <div className="fixed bottom-24 right-6 w-96 h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col z-50 overflow-hidden border border-gray-200">
           {/* Header */}
-          <div className="bg-blue-600 text-white p-4 flex items-center justify-between">
+          <div className="bg-[#b48c5c] text-white p-4 flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-[#9a7450] rounded-full flex items-center justify-center">
                 <span className="text-xl font-bold">AI</span>
               </div>
               <div>
@@ -329,7 +329,7 @@ export default function ChatBot() {
                 <div
                   className={`max-w-[80%] rounded-lg px-4 py-2 ${
                     message.role === 'user'
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-[#b48c5c] text-white'
                       : 'bg-white text-gray-800 border border-gray-200'
                   }`}
                 >
@@ -340,7 +340,7 @@ export default function ChatBot() {
                         {[...Array(5)].map((_, i) => (
                           <div
                             key={i}
-                            className="w-1 bg-blue-600 rounded-full animate-pulse"
+                            className="w-1 bg-[#b48c5c] rounded-full animate-pulse"
                             style={{
                               height: `${12 + Math.random() * 12}px`,
                               animationDelay: `${i * 0.1}s`,
@@ -373,9 +373,9 @@ export default function ChatBot() {
               <div className="flex justify-start">
                 <div className="bg-white rounded-lg px-4 py-3 border border-gray-200">
                   <div className="flex space-x-2">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-2 h-2 bg-[#b48c5c] rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-[#b48c5c] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-[#b48c5c] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                   </div>
                 </div>
               </div>
@@ -392,7 +392,7 @@ export default function ChatBot() {
                   <button
                     key={index}
                     onClick={() => setInputMessage(question)}
-                    className="text-xs bg-blue-50 text-blue-700 px-3 py-1 rounded-md hover:bg-blue-100 transition"
+                    className="text-xs bg-[#f5f0eb] text-[#b48c5c] px-3 py-1 rounded-md hover:bg-[#e8dfd4] transition"
                   >
                     {question}
                   </button>
@@ -427,7 +427,7 @@ export default function ChatBot() {
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   placeholder="Type your message..."
-                  className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                  className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#b48c5c] focus:border-transparent"
                   disabled={isLoading}
                 />
               )}
@@ -455,7 +455,7 @@ export default function ChatBot() {
               <button
                 type="submit"
                 disabled={isLoading || !inputMessage.trim() || isRecording}
-                className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-[#b48c5c] text-white p-2 rounded-lg hover:bg-[#9a7450] transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
