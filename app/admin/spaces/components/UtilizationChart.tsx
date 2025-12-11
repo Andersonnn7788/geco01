@@ -164,3 +164,6 @@ export default function UtilizationChart({ monthBookings, totalSpaces }: Props) 
 
 
 
+
+
+
